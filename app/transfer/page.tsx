@@ -61,6 +61,8 @@ export default function TransferPage() {
     }
   };
 
+  console.log('Transaction status updated:', txStatus);
+
   return (
     <div className="mx-auto max-w-xl px-4 py-12 sm:py-20 animate-fade-in">
       <div className="card">
