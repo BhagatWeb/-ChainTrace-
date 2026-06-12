@@ -53,7 +53,7 @@ export function useWallet() {
     sessionStorage.removeItem('ct_wallet');
   }, []);
 
-  // Poll balance every 10 seconds if connected
+  // Poll balance every 10 seconds to keep UI state in sync with network state
   useEffect(() => {
     if (!publicKey) return;
     const interval = setInterval(() => {
