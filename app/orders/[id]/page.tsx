@@ -6,6 +6,8 @@ import { useWallet } from '@/hooks/useWallet';
 import { orderClient } from '@/lib/contracts/order-client';
 import { escrowClient } from '@/lib/contracts/escrow-client';
 import { useEscrow } from '@/hooks/useEscrow';
+import { useContractEvents } from '@/hooks/useContractEvents';
+import { ORDER_CONTRACT_ID } from '@/lib/constants';
 import { stellar } from '@/lib/stellar';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -20,6 +22,7 @@ import {
   FiLock,
   FiUnlock,
   FiExternalLink,
+  FiActivity,
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import type { Order } from '@/lib/types';
@@ -30,6 +33,7 @@ export default function OrderDetailPage() {
   const orderId = Number(id);
   const { publicKey, isConnected } = useWallet();
   const { escrow, refetch: refetchEscrow } = useEscrow(orderId, publicKey || undefined);
+  const { events, loading: eventsLoading } = useContractEvents(ORDER_CONTRACT_ID);
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
@@ -370,6 +374,47 @@ export default function OrderDetailPage() {
                 );
               })}
             </div>
+          </div>
+
+          {/* Real-time Events Log */}
+          <div className="card">
+            <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-1.5">
+              <FiActivity className="text-zinc-400" />
+              Real-time Events
+            </h3>
+            {eventsLoading ? (
+              <div className="space-y-2">
+                {[0, 1].map((i) => (
+                  <div key={i} className="h-12 animate-pulse bg-zinc-900 rounded-lg" />
+                ))}
+              </div>
+            ) : events.length === 0 ? (
+              <p className="text-xs text-zinc-500 italic">No events captured yet.</p>
+            ) : (
+              <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+                {events.map((evt) => (
+                  <div
+                    key={evt.id}
+                    className="rounded-lg border border-zinc-850 bg-zinc-950/40 p-2.5 text-[11px] font-mono animate-fade-in"
+                  >
+                    <div className="flex justify-between text-white font-semibold mb-1">
+                      <span>{evt.topic.join(' / ')}</span>
+                      <span className="text-zinc-500">L{evt.ledger}</span>
+                    </div>
+                    <p className="text-zinc-400 truncate">Value: {JSON.stringify(evt.value)}</p>
+                    <a
+                      href={stellar.getExplorerLink(evt.txHash, 'tx')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center gap-1 text-[10px] text-zinc-400 hover:text-white"
+                    >
+                      Tx: {stellar.formatAddress(evt.txHash, 4, 4)}
+                      <FiExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
