@@ -92,3 +92,9 @@ ChainTrace is a decentralized trade coordination and financing protocol built on
 
 ## 👨‍💻 Author
 **BhagatWeb** — [GitHub](https://github.com/BhagatWeb)
+
+---
+
+## 📄 License
+This project is licensed under the MIT License.
+
