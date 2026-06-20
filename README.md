@@ -4,6 +4,49 @@ ChainTrace is a decentralized trade coordination and financing protocol built on
 
 ---
 
+## 📌 Submission Details & Demo Presentation
+
+*   **🌐 Live Production Link**: [https://chain-trace.netlify.app/](https://chain-trace.netlify.app/)
+*   **📹 Demo Video Presentation**: [Google Drive Video Demo](https://drive.google.com/file/d/1ZwH7PVVpRn0xglDTZJ7jcAVxRAkEZkoe/view?usp=sharing)
+*   **💻 GitHub Repository**: [https://github.com/BhagatWeb/-ChainTrace-](https://github.com/BhagatWeb/-ChainTrace-)
+
+---
+
+## 📸 Media Gallery
+
+### 📱 Mobile Responsive Interface
+Below are screenshots demonstrating the mobile-responsive web interface, built using a clean monochromatic (slate and zinc) layout matching Stitch guidelines:
+
+| Home & Connect Page | Order Dashboard |
+| --- | --- |
+| ![Mobile UI 1](./sub%20assets/mobui1.png) | ![Mobile UI 2](./sub%20assets/mobui2.png) |
+
+---
+
+### ⚙️ CI/CD Pipeline
+Our GitHub Actions workflow automatically builds the Next.js frontend, runs the lint checkers, compiles the Rust contracts to WebAssembly, and runs both cargo and unit tests upon pushing commits to the main repository:
+
+![CI/CD Pipeline Running](./sub%20assets/cicdss.png)
+
+---
+
+### 🖥️ Desktop Web UI (Clean Monochromatic Redesign)
+
+| Landing Screen | Main Dashboard Overview |
+| --- | --- |
+| ![Desktop UI 1](./sub%20assets/ui1.png) | ![Desktop UI 2](./sub%20assets/ui2.png) |
+
+---
+
+## 🚀 Deployed Contracts & Credentials
+
+*   **Order Manager Contract ID**: `CB56DGFX43XUXN2OASKM3SF6I3WWNYUM6KE7HKUKX3JSLZPYQSRQXOHH`
+*   **Escrow Vault Contract ID**: `CBAFHUW7TL73RG4KYSL53ZF4N4NCJK76KXL3NHKEDDWE2GPVHA52LJ47`
+*   **Stellar Network**: Testnet
+*   **Initialization Transaction**: `7fb488cc3a32f6b3e7ff7de9ef652a921d743a129de9d28bc9ef2816ccb21f3a` (Cross-linked for automatic milestone payouts)
+
+---
+
 ## 📌 Problem & Solution
 
 ### The Problem
@@ -17,36 +60,6 @@ ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault 
 - **Dual-Contract Architecture**: Separation of order metadata (`order-contract`) from the actual fund locking/release mechanisms (`escrow-contract`) for high security.
 - **Inter-Contract state updates**: When a verified logistics provider or inspector updates a shipment milestone, the `order-contract` performs a cross-contract invocation to `escrow-contract` to execute payouts.
 - **Role-based dashboard**: Granular control panel with custom modules tailored to **Buyers**, **Suppliers**, **Logistics Providers**, and **Inspectors**.
-
----
-
-## 🚀 Deployed Contracts & Credentials
-
-*   **Order Manager Contract ID**: `CB56DGFX43XUXN2OASKM3SF6I3WWNYUM6KE7HKUKX3JSLZPYQSRQXOHH`
-*   **Escrow Vault Contract ID**: `CBAFHUW7TL73RG4KYSL53ZF4N4NCJK76KXL3NHKEDDWE2GPVHA52LJ47`
-*   **Stellar Network**: Testnet
-*   **Initialization Transaction**: `7fb488cc3a32f6b3e7ff7de9ef652a921d743a129de9d28bc9ef2816ccb21f3a` (cross-linked for automatic milestone payouts)
-
----
-
-## 📸 Submission Screenshots & Demo Video
-
-*Please replace the placeholders below with your own screenshots and video link before final submission:*
-
-### 📹 Demo Video Link
-- [Link to Demo Video (1-2 minutes)]() <!-- Insert your video link here (Google Drive, Loom, YouTube, etc.) -->
-
-### 📱 Mobile Responsive UI
-<!-- Drag and drop your mobile view screenshots here -->
-*(Upload mobile-responsive UI screenshots here)*
-
-### ⚙️ CI/CD Pipeline Running
-<!-- Drag and drop your CI/CD pipeline screenshot here -->
-*(Upload CI/CD pipeline screenshot here)*
-
-### 🧪 Test Output (3+ Passing Tests)
-<!-- Drag and drop your passing test suite screenshot here -->
-*(Upload test suite run screenshot here)*
 
 ---
 
@@ -74,8 +87,53 @@ ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault 
 
 ---
 
+## 🧪 Verified Test Suite Runs
+
+### 1. Smart Contract Test Output
+Running tests inside `contracts/order-contract` and `contracts/escrow-contract`:
+```bash
+$ cargo test
+
+running 2 tests
+test test::test_create_order ... ok
+test test::test_order_lifecycle ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+running 1 test
+test test::test_deposit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+```
+
+### 2. Frontend Vitest Output
+```bash
+$ npm run test
+
+ RUN  v2.1.9 C:/Users/Deep Saha/Desktop/risein/level 3/ChainTrace- Aman
+
+ ✓ __tests__/components/Badge.test.tsx > Badge Component > renders the correct label for created status
+ ✓ __tests__/components/Badge.test.tsx > Badge Component > renders the correct label for funded status
+ ✓ __tests__/components/Badge.test.tsx > Badge Component > renders the correct label for refunded status
+ ✓ __tests__/components/Button.test.tsx > Button Component > renders children correctly
+ ✓ __tests__/components/Button.test.tsx > Button Component > triggers onClick handler when clicked
+ ✓ __tests__/components/Button.test.tsx > Button Component > is disabled and shows spinner when loading
+ ✓ __tests__/lib/stellar.test.ts > StellarHelper Utilities > formatAddress > truncates public keys correctly
+ ✓ __tests__/lib/stellar.test.ts > StellarHelper Utilities > formatAddress > returns short addresses as-is
+ ✓ __tests__/lib/stellar.test.ts > StellarHelper Utilities > getExplorerLink > generates correct transaction link
+ ✓ __tests__/lib/stellar.test.ts > StellarHelper Utilities > getExplorerLink > generates correct account link
+ ✓ __tests__/lib/stellar.test.ts > StellarHelper Utilities > stroopsToXlm > converts basic stroop balances correctly
+ ✓ __tests__/lib/stellar.test.ts > StellarHelper Utilities > xlmToStroops > converts XLM amounts to stroops correctly
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Duration  4.47s
+```
+
+---
+
 ## 🛠️ Technology Stack
-*   **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS (Monochromatic zinc dark-mode theme)
+*   **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS (Monochromatic light theme styling matching Stitch parameters)
 *   **Contracts**: Rust (Soroban SDK `22.0.11`)
 *   **Stellar Integration**: `@stellar/stellar-sdk` & `@creit.tech/stellar-wallets-kit`
 *   **Testing**: Vitest + JSDOM for frontend; Cargo test for Rust contracts
@@ -93,8 +151,8 @@ ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault 
 
 1. **Clone the Repository and Navigate to the Directory**:
    ```bash
-   git clone https://github.com/BhagatWeb/ChainTrace.git
-   cd ChainTrace
+   git clone https://github.com/BhagatWeb/-ChainTrace-.git
+   cd -ChainTrace-
    ```
 
 2. **Configure Environment Variables**:
@@ -126,7 +184,7 @@ ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault 
 ---
 
 ## 👨‍💻 Author
-**BhagatWeb** — [GitHub](https://github.com/BhagatWeb)
+**BhagatWeb** — [GitHub Profile](https://github.com/BhagatWeb)
 
 ---
 
