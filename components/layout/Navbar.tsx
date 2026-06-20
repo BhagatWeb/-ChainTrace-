@@ -18,11 +18,11 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 text-white">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-950 text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-cyan-400">
             <FiActivity className="h-5 w-5" />
           </div>
           <span className="text-lg font-bold tracking-tight">
-            Chain<span className="text-zinc-400">Trace</span>
+            Chain<span className="text-cyan-400 font-semibold">Trace</span>
           </span>
         </Link>
 
@@ -32,7 +32,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-900 hover:text-white"
+              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-900/65 hover:text-cyan-400"
             >
               {link.label}
             </Link>
@@ -58,20 +58,20 @@ export default function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-zinc-800 px-4 py-4 md:hidden animate-slide-up">
+        <div className="border-t border-slate-900 px-4 py-4 md:hidden animate-slide-up">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-4 py-3 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-900 hover:text-white"
+                className="rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-900/60 hover:text-cyan-400"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <div className="mt-4 border-t border-zinc-800 pt-4">
+          <div className="mt-4 border-t border-slate-900 pt-4">
             <WalletButton />
           </div>
         </div>
