@@ -293,7 +293,12 @@ export default function OrderDetailPage() {
                       <span className="font-bold text-blue-300">{evt.topic.join(' / ')}</span>
                       <span className="opacity-50 text-[10px]">L{evt.ledger}</span>
                     </div>
-                    <p className="text-[11px] text-white/80 line-clamp-2">Value: {JSON.stringify(evt.value)}</p>
+                    <p className="text-[11px] text-white/80 line-clamp-2">
+                      Value:{' '}
+                      {JSON.stringify(evt.value, (_, v) =>
+                        typeof v === 'bigint' ? v.toString() : v
+                      )}
+                    </p>
                     <div className="flex justify-between items-center mt-1">
                       <span className="font-mono text-[9px] text-white/40">{stellar.formatAddress(evt.txHash, 6, 6)}</span>
                       <a
