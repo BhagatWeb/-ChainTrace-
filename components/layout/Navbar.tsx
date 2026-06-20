@@ -14,15 +14,15 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 text-white">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-cyan-400">
+        <Link href="/" className="flex items-center gap-2.5 text-slate-900">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-black">
             <FiActivity className="h-5 w-5" />
           </div>
           <span className="text-lg font-bold tracking-tight">
-            Chain<span className="text-cyan-400 font-semibold">Trace</span>
+            Chain<span className="text-slate-500 font-semibold">Trace</span>
           </span>
         </Link>
 
@@ -32,7 +32,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-900/65 hover:text-cyan-400"
+              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-black"
             >
               {link.label}
             </Link>
@@ -58,20 +58,20 @@ export default function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-slate-900 px-4 py-4 md:hidden animate-slide-up">
+        <div className="border-t border-slate-200 px-4 py-4 md:hidden animate-slide-up bg-white">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-900/60 hover:text-cyan-400"
+                className="rounded-lg px-4 py-3 text-sm font-medium text-slate-650 transition-colors hover:bg-slate-50 hover:text-black"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <div className="mt-4 border-t border-slate-900 pt-4">
+          <div className="mt-4 border-t border-slate-200 pt-4">
             <WalletButton />
           </div>
         </div>
