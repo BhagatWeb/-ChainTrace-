@@ -102,7 +102,7 @@ ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault 
    ```env
    NEXT_PUBLIC_ESCROW_CONTRACT_ID=CBAFHUW7TL73RG4KYSL53ZF4N4NCJK76KXL3NHKEDDWE2GPVHA52LJ47
    NEXT_PUBLIC_ORDER_CONTRACT_ID=CB56DGFX43XUXN2OASKM3SF6I3WWNYUM6KE7HKUKX3JSLZPYQSRQXOHH
-   NEXT_PUBLIC_STELLAR_RPC_URL=https://soroban-rpc.testnet.stellar.org
+   NEXT_PUBLIC_STELLAR_RPC_URL=https://soroban-testnet.stellar.org
    ```
 
 3. **Install Dependencies**:
