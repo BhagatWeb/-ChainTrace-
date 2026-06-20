@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useWallet } from '@/hooks/useWallet';
 import { orderClient } from '@/lib/contracts/order-client';
-import { Button } from '@/components/ui/Button';
-import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
@@ -37,7 +35,7 @@ export default function CreateOrderPage() {
 
     try {
       setLoading(true);
-      const res = await orderClient.createOrder({
+      await orderClient.createOrder({
         publicKey,
         supplier,
         shipper,
@@ -57,24 +55,25 @@ export default function CreateOrderPage() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-12 animate-fade-in">
-      <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors mb-6">
-        <FiArrowLeft /> Back to Dashboard
+      <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-black transition-colors mb-6 font-semibold uppercase tracking-widest">
+        <span className="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
       </Link>
 
-      <div className="card">
-        <h2 className="text-xl font-bold text-white mb-1">Create Supply Chain Order</h2>
-        <p className="text-xs text-zinc-400 mb-6">
+      <div className="card border border-slate-200 bg-white">
+        <h2 className="text-xl font-bold text-slate-900 mb-1">Create Supply Chain Order</h2>
+        <p className="text-xs text-slate-500 mb-6">
           Define supplier, shipper, inspector, and lockable escrow budget to launch the trade pipeline.
         </p>
 
         {!isConnected ? (
-          <p className="text-center py-6 text-sm text-zinc-400">
-            Please connect your wallet first.
-          </p>
+          <div className="text-center py-8 bg-slate-50 rounded-lg border border-slate-200 p-4">
+            <span className="material-symbols-outlined text-3xl text-slate-400 mb-2">account_balance_wallet</span>
+            <p className="text-sm text-slate-600 font-semibold">Please connect your wallet first.</p>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
                 Supplier Address
               </label>
               <input
@@ -83,13 +82,13 @@ export default function CreateOrderPage() {
                 value={supplier}
                 onChange={(e) => setSupplier(e.target.value)}
                 disabled={loading}
-                className="field-input font-mono"
+                className="w-full h-12 bg-white border border-slate-200 rounded-lg px-4 text-slate-900 outline-none active-ring focus:border-black transition-all font-mono text-sm"
                 required
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
                 Logistics Shipper Address
               </label>
               <input
@@ -98,13 +97,13 @@ export default function CreateOrderPage() {
                 value={shipper}
                 onChange={(e) => setShipper(e.target.value)}
                 disabled={loading}
-                className="field-input font-mono"
+                className="w-full h-12 bg-white border border-slate-200 rounded-lg px-4 text-slate-900 outline-none active-ring focus:border-black transition-all font-mono text-sm"
                 required
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
                 Inspector Address
               </label>
               <input
@@ -113,13 +112,13 @@ export default function CreateOrderPage() {
                 value={inspector}
                 onChange={(e) => setInspector(e.target.value)}
                 disabled={loading}
-                className="field-input font-mono"
+                className="w-full h-12 bg-white border border-slate-200 rounded-lg px-4 text-slate-900 outline-none active-ring focus:border-black transition-all font-mono text-sm"
                 required
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
                 Order Value (XLM)
               </label>
               <input
@@ -130,18 +129,28 @@ export default function CreateOrderPage() {
                 value={amountXlm}
                 onChange={(e) => setAmountXlm(e.target.value)}
                 disabled={loading}
-                className="field-input"
+                className="w-full h-12 bg-white border border-slate-200 rounded-lg px-4 text-slate-900 outline-none active-ring focus:border-black transition-all text-sm"
                 required
               />
             </div>
 
-            <Button
+            <button
               type="submit"
-              isLoading={loading}
-              className="w-full h-11 flex justify-center items-center gap-2"
+              disabled={loading}
+              className="w-full bg-black text-white h-12 rounded-lg font-semibold hover:bg-slate-800 active:scale-95 transition-all flex items-center justify-center gap-2 mt-4"
             >
-              <FiPlus /> Initialize Order
-            </Button>
+              {loading ? (
+                <>
+                  <span className="animate-spin material-symbols-outlined text-[18px]">progress_activity</span>
+                  Initializing...
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-[18px]">add</span>
+                  Initialize Order
+                </>
+              )}
+            </button>
           </form>
         )}
       </div>

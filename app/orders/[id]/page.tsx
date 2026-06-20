@@ -10,20 +10,7 @@ import { useContractEvents } from '@/hooks/useContractEvents';
 import { ORDER_CONTRACT_ID } from '@/lib/constants';
 import { stellar } from '@/lib/stellar';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
-import {
-  FiArrowLeft,
-  FiClock,
-  FiCheckCircle,
-  FiTruck,
-  FiSearch,
-  FiDollarSign,
-  FiLock,
-  FiUnlock,
-  FiExternalLink,
-  FiActivity,
-} from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import type { Order } from '@/lib/types';
 
@@ -77,8 +64,8 @@ export default function OrderDetailPage() {
   if (loading || !order) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/20 border-t-white mx-auto mb-4" />
-        <p className="text-zinc-400">Loading order metadata...</p>
+        <span className="animate-spin material-symbols-outlined text-4xl text-slate-400 mb-4">progress_activity</span>
+        <p className="text-slate-500">Loading order metadata...</p>
       </div>
     );
   }
@@ -88,333 +75,261 @@ export default function OrderDetailPage() {
   const isShipper = publicKey && publicKey.toUpperCase() === order.shipper.toUpperCase();
   const isInspector = publicKey && publicKey.toUpperCase() === order.inspector.toUpperCase();
 
-  // Timeline steps
-  const steps = [
-    { label: 'Created', desc: 'Order declared on-chain', active: true, icon: FiClock },
-    {
-      label: 'Funded',
-      desc: 'Buyer deposited XLM in Escrow',
-      active: ['funded', 'shipped', 'delivered', 'inspected_passed', 'inspected_failed', 'refunded'].includes(order.status),
-      icon: FiDollarSign,
-    },
-    {
-      label: 'Shipped',
-      desc: 'Shipper dispatched cargo',
-      active: ['shipped', 'delivered', 'inspected_passed', 'inspected_failed', 'refunded'].includes(order.status),
-      icon: FiTruck,
-    },
-    {
-      label: 'Delivered',
-      desc: 'Goods reached destination',
-      active: ['delivered', 'inspected_passed', 'inspected_failed', 'refunded'].includes(order.status),
-      icon: FiCheckCircle,
-    },
-    {
-      label: 'Inspected',
-      desc: 'Inspector verified quality',
-      active: ['inspected_passed', 'inspected_failed', 'refunded'].includes(order.status),
-      icon: FiSearch,
-    },
-  ];
-
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 animate-fade-in">
-      <Link
-        href="/dashboard"
-        className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors mb-6"
-      >
-        <FiArrowLeft /> Back to Dashboard
-      </Link>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Left column: metadata & actions */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Main order card */}
-          <div className="card">
-            <div className="flex items-center justify-between border-b border-zinc-850 pb-4 mb-6">
-              <div>
-                <h1 className="text-xl font-bold text-white">Order #{order.id}</h1>
-                <p className="text-xs text-zinc-500 font-mono">Created at block ledger {order.createdAt}</p>
-              </div>
-              <Badge status={order.status} />
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <span className="block text-xs font-semibold text-zinc-500 mb-1">Buyer Address</span>
-                <span className="text-sm font-mono block bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-900 truncate">
-                  {order.buyer}
-                </span>
-              </div>
-              <div>
-                <span className="block text-xs font-semibold text-zinc-500 mb-1">Supplier Address</span>
-                <span className="text-sm font-mono block bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-900 truncate">
-                  {order.supplier}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <span className="block text-xs font-semibold text-zinc-500 mb-1">Logistics Shipper</span>
-                  <span className="text-xs font-mono block bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-900 truncate">
-                    {stellar.formatAddress(order.shipper, 6, 6)}
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-xs font-semibold text-zinc-500 mb-1">Quality Inspector</span>
-                  <span className="text-xs font-mono block bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-900 truncate">
-                    {stellar.formatAddress(order.inspector, 6, 6)}
-                  </span>
-                </div>
-              </div>
-            </div>
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      {/* Header & Top Navigation */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+          <div className="flex items-center gap-2 text-slate-500 mb-2">
+            <Link href="/dashboard" className="font-semibold text-xs uppercase tracking-widest hover:text-black transition-colors">
+              Dashboard
+            </Link>
+            <span className="text-slate-300">/</span>
+            <span className="font-semibold text-xs text-slate-900 uppercase tracking-widest">Order Details</span>
           </div>
-
-          {/* Workflow actions */}
-          <div className="card">
-            <h3 className="text-sm font-semibold text-white mb-4">Pipeline Actions</h3>
-
-            {/* Actions based on role and status */}
-            <div className="space-y-3">
-              {order.status === 'created' && isBuyer && (
-                <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-850">
-                  <p className="text-xs text-zinc-400 mb-3">
-                    As the Buyer, fund the escrow vault with {Number(order.amount).toFixed(2)} XLM to initiate shipment.
-                  </p>
-                  <Button
-                    onClick={() =>
-                      handleAction(
-                        () => escrowClient.deposit(publicKey, order.id, order.amount),
-                        'Escrow successfully funded!'
-                      )
-                    }
-                    isLoading={actionLoading}
-                    className="w-full"
-                  >
-                    Fund Escrow ({Number(order.amount).toFixed(2)} XLM)
-                  </Button>
-                </div>
-              )}
-
-              {order.status === 'funded' && isShipper && (
-                <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-850">
-                  <p className="text-xs text-zinc-400 mb-3">
-                    As the Shipper, confirm dispatch of cargo to update the status to Shipped.
-                  </p>
-                  <Button
-                    onClick={() =>
-                      handleAction(
-                        () => orderClient.shipOrder(publicKey, order.id),
-                        'Cargo marked as shipped!'
-                      )
-                    }
-                    isLoading={actionLoading}
-                    className="w-full"
-                  >
-                    Dispatched / Ship Order
-                  </Button>
-                </div>
-              )}
-
-              {order.status === 'shipped' && isShipper && (
-                <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-850">
-                  <p className="text-xs text-zinc-400 mb-3">
-                    As the Shipper, log successful delivery to trigger inspection.
-                  </p>
-                  <Button
-                    onClick={() =>
-                      handleAction(
-                        () => orderClient.deliverOrder(publicKey, order.id),
-                        'Cargo marked as delivered!'
-                      )
-                    }
-                    isLoading={actionLoading}
-                    className="w-full"
-                  >
-                    Confirm Delivery
-                  </Button>
-                </div>
-              )}
-
-              {order.status === 'delivered' && isInspector && (
-                <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-850 space-y-3">
-                  <p className="text-xs text-zinc-400">
-                    As the Quality Inspector, sign off on the inspection report. Passing will automatically release escrowed funds to the supplier.
-                  </p>
-                  <div className="flex gap-3">
-                    <Button
-                      onClick={() =>
-                        handleAction(
-                          () => orderClient.inspectOrder(publicKey, order.id, true),
-                          'Inspection passed! Escrow released.'
-                        )
-                      }
-                      isLoading={actionLoading}
-                      className="flex-1"
-                    >
-                      Pass Quality Check
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        handleAction(
-                          () => orderClient.inspectOrder(publicKey, order.id, false),
-                          'Inspection marked as failed.'
-                        )
-                      }
-                      isLoading={actionLoading}
-                      variant="danger"
-                      className="flex-1"
-                    >
-                      Fail Quality Check
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {order.status === 'inspected_failed' && isBuyer && (
-                <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-850">
-                  <p className="text-xs text-zinc-400 mb-3">
-                    The inspection failed. As the Buyer, withdraw your deposit from the escrow vault.
-                  </p>
-                  <Button
-                    onClick={() =>
-                      handleAction(
-                        () => orderClient.refundOrder(publicKey, order.id),
-                        'Funds successfully refunded!'
-                      )
-                    }
-                    isLoading={actionLoading}
-                    variant="danger"
-                    className="w-full"
-                  >
-                    Request Escrow Refund
-                  </Button>
-                </div>
-              )}
-
-              {/* Default fallback info */}
-              {!isBuyer && !isShipper && !isInspector && !isSupplier && (
-                <p className="text-xs text-zinc-500 italic py-2">
-                  No actions available for your connected wallet role.
-                </p>
-              )}
-            </div>
-
-            {/* Transaction confirmation feedback */}
-            {txHash && (
-              <div className="mt-4 rounded-lg border border-zinc-800 bg-zinc-950 p-3.5 flex items-center justify-between text-xs animate-slide-up">
-                <span className="text-zinc-400">Transaction hash:</span>
-                <a
-                  href={stellar.getExplorerLink(txHash, 'tx')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono text-white hover:underline flex items-center gap-1"
-                >
-                  {stellar.formatAddress(txHash, 6, 6)}
-                  <FiExternalLink className="h-3 w-3" />
-                </a>
-              </div>
-            )}
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Order #{order.id}</h1>
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            <Badge status={order.status} />
+            <span className="text-xs text-slate-500">Created at block ledger {order.createdAt}</span>
           </div>
         </div>
 
-        {/* Right column: Escrow Vault & Visual timeline */}
-        <div className="space-y-6">
-          {/* Escrow Details */}
-          <div className="card">
-            <h3 className="text-sm font-semibold text-white mb-4">Escrow Status</h3>
-            {escrow ? (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                    {escrow.isActive ? <FiLock className="text-white" /> : <FiUnlock className="text-zinc-500" />}
-                    State
-                  </div>
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                    escrow.isActive ? 'bg-zinc-800 text-zinc-200' : 'bg-white/10 text-white'
-                  }`}>
-                    {escrow.isActive ? 'Locked' : 'Settled'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between border-t border-zinc-850 pt-3">
-                  <span className="text-xs text-zinc-400">Escrow Value</span>
-                  <span className="text-sm font-bold text-white">{Number(escrow.amount).toFixed(2)} XLM</span>
+        {/* Action Buttons based on roles */}
+        <div className="flex flex-wrap gap-3">
+          {order.status === 'created' && isBuyer && (
+            <button
+              onClick={() =>
+                handleAction(
+                  () => escrowClient.deposit(publicKey, order.id, order.amount),
+                  'Escrow successfully funded!'
+                )
+              }
+              disabled={actionLoading}
+              className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded font-semibold text-xs hover:bg-slate-800 transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-base">payments</span>
+              Fund Escrow ({Number(order.amount).toFixed(2)} XLM)
+            </button>
+          )}
+
+          {order.status === 'funded' && isShipper && (
+            <button
+              onClick={() =>
+                handleAction(
+                  () => orderClient.shipOrder(publicKey, order.id),
+                  'Cargo marked as shipped!'
+                )
+              }
+              disabled={actionLoading}
+              className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded font-semibold text-xs hover:bg-slate-800 transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-base">local_shipping</span>
+              Dispatched / Ship Order
+            </button>
+          )}
+
+          {order.status === 'shipped' && isShipper && (
+            <button
+              onClick={() =>
+                handleAction(
+                  () => orderClient.deliverOrder(publicKey, order.id),
+                  'Cargo marked as delivered!'
+                )
+              }
+              disabled={actionLoading}
+              className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded font-semibold text-xs hover:bg-slate-800 transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-base">task_alt</span>
+              Confirm Delivery
+            </button>
+          )}
+
+          {order.status === 'delivered' && isInspector && (
+            <div className="flex gap-2">
+              <button
+                onClick={() =>
+                  handleAction(
+                    () => orderClient.inspectOrder(publicKey, order.id, true),
+                    'Inspection passed! Escrow released.'
+                  )
+                }
+                disabled={actionLoading}
+                className="flex items-center gap-2 bg-black text-white px-4 py-3 rounded font-semibold text-xs hover:bg-slate-800 transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined text-base">verified_user</span>
+                Pass Quality Check
+              </button>
+              <button
+                onClick={() =>
+                  handleAction(
+                    () => orderClient.inspectOrder(publicKey, order.id, false),
+                    'Inspection marked as failed.'
+                  )
+                }
+                disabled={actionLoading}
+                className="flex items-center gap-2 bg-white border border-red-500 text-red-500 px-4 py-3 rounded font-semibold text-xs hover:bg-red-50 transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined text-base font-bold">close</span>
+                Fail Quality Check
+              </button>
+            </div>
+          )}
+
+          {order.status === 'inspected_failed' && isBuyer && (
+            <button
+              onClick={() =>
+                handleAction(
+                  () => orderClient.refundOrder(publicKey, order.id),
+                  'Funds successfully refunded!'
+                )
+              }
+              disabled={actionLoading}
+              className="flex items-center gap-2 bg-red-650 text-white px-6 py-3 rounded font-semibold text-xs hover:bg-red-700 transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-base">undo</span>
+              Request Escrow Refund
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column: Spec Grid & Details */}
+        <div className="lg:col-span-8 space-y-8">
+          <div className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-6">Order Specification</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Order ID</span>
+                <div className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+                  CT-ORDER-{order.id}
                 </div>
               </div>
-            ) : (
-              <p className="text-xs text-zinc-500 italic">No active deposit locks found in escrow contract.</p>
-            )}
-          </div>
-
-          {/* Visual Timeline */}
-          <div className="card">
-            <h3 className="text-sm font-semibold text-white mb-6">Delivery Timeline</h3>
-            <div className="relative pl-6 space-y-6">
-              {/* Vertical line connecting steps */}
-              <div className="absolute left-2.5 top-2 bottom-2 w-px bg-zinc-800" />
-
-              {steps.map((step, idx) => {
-                const Icon = step.icon;
-                return (
-                  <div key={idx} className="relative flex items-start gap-3">
-                    {/* Circle icon */}
-                    <div className={`absolute -left-6 flex h-6 w-6 items-center justify-center rounded-full border text-xs transition-colors ${
-                      step.active
-                        ? 'border-white bg-white text-black'
-                        : 'border-zinc-850 bg-zinc-950 text-zinc-600'
-                    }`}>
-                      <Icon className="h-3 w-3" />
-                    </div>
-                    <div>
-                      <h4 className={`text-xs font-semibold ${step.active ? 'text-white' : 'text-zinc-600'}`}>
-                        {step.label}
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 mt-0.5">{step.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Escrow Value</span>
+                <div className="text-sm font-extrabold text-slate-900">
+                  {Number(order.amount).toFixed(2)} <span className="text-xs text-slate-500 font-normal">XLM</span>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Buyer</span>
+                <div className="text-xs font-mono bg-slate-50 p-2.5 rounded-lg border border-slate-200 truncate">
+                  {order.buyer}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Supplier</span>
+                <div className="text-xs font-mono bg-slate-50 p-2.5 rounded-lg border border-slate-200 truncate">
+                  {order.supplier}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Logistics Provider</span>
+                <div className="text-xs font-mono bg-slate-50 p-2.5 rounded-lg border border-slate-200 truncate">
+                  {order.shipper}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Independent Inspector</span>
+                <div className="text-xs font-mono bg-slate-50 p-2.5 rounded-lg border border-slate-200 truncate">
+                  {order.inspector}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Real-time Events Log */}
-          <div className="card">
-            <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-1.5">
-              <FiActivity className="text-zinc-400" />
-              Real-time Events
-            </h3>
-            {eventsLoading ? (
-              <div className="space-y-2">
-                {[0, 1].map((i) => (
-                  <div key={i} className="h-12 animate-pulse bg-zinc-900 rounded-lg" />
-                ))}
-              </div>
-            ) : events.length === 0 ? (
-              <p className="text-xs text-zinc-500 italic">No events captured yet.</p>
-            ) : (
-              <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
-                {events.map((evt) => (
-                  <div
-                    key={evt.id}
-                    className="rounded-lg border border-zinc-850 bg-zinc-950/40 p-2.5 text-[11px] font-mono animate-fade-in"
-                  >
-                    <div className="flex justify-between text-white font-semibold mb-1">
-                      <span>{evt.topic.join(' / ')}</span>
-                      <span className="text-zinc-500">L{evt.ledger}</span>
+          {/* Map mockup */}
+          <div className="bg-slate-900 border border-slate-200 rounded-xl overflow-hidden h-64 relative shadow-sm">
+            <div className="w-full h-full bg-cover bg-center opacity-60"
+                 style={{ backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgZxAdeW7c-C6eiWyDPQz3FVXQ6KLfKS9iXAMq3QpdYU3qHhPGzwbuB0PzCvKOrgiMJxdI3LXvVTUWWZYiP9P8SxAYlUshinuD1TqSUS0iGfcsLvab8e8lZm-0eGS2p7VvLqOBbldEz1kD3Vc1fBnyzEIKw1qQ-g4AE69jfof05vDKtZux0pH5UKmRz8ChX_Os977-rlS_lJoDdOsyIRFrP3fu9VJMfk03FtJC7Fg2AZL7JVIAMw-m0p7vo74Mn_k6bBHMLDFOssY')` }} />
+            <div className="absolute top-4 left-4 bg-black/90 backdrop-blur-md text-white px-4 py-2 rounded shadow-sm border border-white/10">
+              <div className="text-[10px] font-bold uppercase opacity-70">Current Location</div>
+              <div className="text-sm font-bold mt-0.5">Maritime Transit Zone</div>
+            </div>
+            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-slate-900 px-4 py-2 rounded shadow-sm border border-slate-200 flex items-center gap-2 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+              Real-time Telemetry Active
+            </div>
+          </div>
+
+          {/* Action confirmation link */}
+          {txHash && (
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center text-xs animate-slide-up">
+              <span className="text-slate-500">Transaction hash:</span>
+              <a
+                href={stellar.getExplorerLink(txHash, 'tx')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-black hover:underline flex items-center gap-1 font-bold"
+              >
+                {stellar.formatAddress(txHash, 6, 6)}
+                <span className="material-symbols-outlined text-sm">open_in_new</span>
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* Right Column: Ledger Event Logs & Document Verifications */}
+        <div className="lg:col-span-4 space-y-8">
+          {/* On-Chain Event Ledger */}
+          <div className="bg-black text-white p-6 rounded-xl flex flex-col h-[400px] shadow-sm">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xs font-bold uppercase tracking-widest opacity-80">On-Chain Event Ledger</h3>
+              <span className="material-symbols-outlined text-blue-400">security</span>
+            </div>
+            <div className="flex-1 overflow-y-auto no-scrollbar space-y-4 pr-1">
+              {eventsLoading ? (
+                <div className="space-y-3">
+                  {[0, 1].map((i) => (
+                    <div key={i} className="h-14 animate-pulse bg-slate-900 rounded-lg" />
+                  ))}
+                </div>
+              ) : events.length === 0 ? (
+                <p className="text-xs text-slate-500 italic">No events captured yet.</p>
+              ) : (
+                events.map((evt) => (
+                  <div key={evt.id} className="group border-l-2 border-white/20 pl-4 py-1 hover:border-blue-400 transition-colors">
+                    <div className="flex justify-between items-start mb-1 text-xs">
+                      <span className="font-bold text-blue-300">{evt.topic.join(' / ')}</span>
+                      <span className="opacity-50 text-[10px]">L{evt.ledger}</span>
                     </div>
-                    <p className="text-zinc-400 truncate">Value: {JSON.stringify(evt.value)}</p>
-                    <a
-                      href={stellar.getExplorerLink(evt.txHash, 'tx')}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-[10px] text-zinc-400 hover:text-white"
-                    >
-                      Tx: {stellar.formatAddress(evt.txHash, 4, 4)}
-                      <FiExternalLink className="h-3 w-3" />
-                    </a>
+                    <p className="text-[11px] text-white/80 line-clamp-2">Value: {JSON.stringify(evt.value)}</p>
+                    <div className="flex justify-between items-center mt-1">
+                      <span className="font-mono text-[9px] text-white/40">{stellar.formatAddress(evt.txHash, 6, 6)}</span>
+                      <a
+                        href={stellar.getExplorerLink(evt.txHash, 'tx')}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-400 hover:underline text-[9px] flex items-center gap-0.5"
+                      >
+                        View <span className="material-symbols-outlined text-[10px]">open_in_new</span>
+                      </a>
+                    </div>
                   </div>
-                ))}
-              </div>
-            )}
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Verification documents mockup */}
+          <div className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Verification Files</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center justify-between p-2 hover:bg-slate-50 rounded transition-colors group cursor-pointer border border-slate-100 bg-slate-50/50">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-slate-500">description</span>
+                  <span className="text-xs font-semibold text-slate-900">Bill_of_Lading.pdf</span>
+                </div>
+                <span className="material-symbols-outlined text-slate-400 group-hover:text-black">download</span>
+              </li>
+              <li className="flex items-center justify-between p-2 hover:bg-slate-50 rounded transition-colors group cursor-pointer border border-slate-100 bg-slate-50/50">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-slate-500">verified</span>
+                  <span className="text-xs font-semibold text-slate-900">Inspection_Report.sig</span>
+                </div>
+                <span className="material-symbols-outlined text-slate-400 group-hover:text-black">download</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

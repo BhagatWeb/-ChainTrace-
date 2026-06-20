@@ -1,118 +1,181 @@
 import Link from 'next/link';
-import { FiArrowRight, FiShield, FiTruck, FiGlobe, FiAnchor, FiCheckCircle } from 'react-icons/fi';
-
-const features = [
-  {
-    icon: FiShield,
-    title: 'Trustless Escrows',
-    description: 'Secure buyer payments on-chain, automatically releasing funds to suppliers when shipping milestones are verified.',
-  },
-  {
-    icon: FiAnchor,
-    title: 'Multi-Role Lifecycle',
-    description: 'Seamlessly coordinate Buyers, Suppliers, Logistics Carriers, and Inspectors within a unified state machine.',
-  },
-  {
-    icon: FiGlobe,
-    title: 'Global Route Tracking',
-    description: 'Track milestones from point of origin to final delivery, with automated checks and cryptographic receipts.',
-  },
-];
 
 export default function LandingPage() {
   return (
     <div className="animate-fade-in space-y-16 py-12">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-50/50 px-6 py-20 text-center sm:px-12 lg:py-28">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-100/50 via-transparent to-transparent" />
-        <div className="absolute -top-12 left-1/2 h-[300px] w-[500px] -translate-x-1/2 rounded-full bg-slate-200/20 blur-[80px]" />
-        
-        <div className="relative mx-auto max-w-3xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-800 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-slate-900 animate-pulse" />
-            Soroban Powered Trade Escrows
-          </div>
-
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-            Decentralized Logistics &{' '}
-            <span className="gradient-text">Milestone Escrows</span>
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-slate-650 sm:text-lg">
-            Remove counterparty risks in global trade. Coordinate buyers, sellers, carriers, and inspectors trustlessly through Stellar smart contracts.
-          </p>
-
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href="/dashboard" className="btn-primary h-12 px-6">
-              Access Trade Dashboard <FiArrowRight className="h-4 w-4" />
-            </Link>
-            <Link href="/transfer" className="btn-secondary h-12 px-6">
-              Direct XLM Transfer
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Global Pipeline Tracker */}
-      <section className="mx-auto max-w-5xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
-          <div>
-            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <FiTruck className="text-slate-800" />
-              Global Pipeline Console
-            </h3>
-            <p className="text-xs text-slate-500">Live simulated shipment tracking pipeline</p>
-          </div>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-800 border border-slate-200">
-            Escrow Status: ACTIVE
-          </span>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-4">
-          <div className="relative rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <div className="text-xs text-slate-600 font-bold uppercase tracking-wider">Milestone 01</div>
-            <div className="text-sm font-semibold text-slate-900 mt-1">Order Funded</div>
-            <div className="text-xs text-slate-500 mt-2">Locked in Escrow</div>
-            <div className="absolute right-3 top-3"><FiCheckCircle className="text-slate-800 h-4 w-4" /></div>
-          </div>
-
-          <div className="relative rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <div className="text-xs text-slate-600 font-bold uppercase tracking-wider">Milestone 02</div>
-            <div className="text-sm font-semibold text-slate-900 mt-1">Cargo Shipped</div>
-            <div className="text-xs text-slate-500 mt-2">Carrier: Singapore Port</div>
-            <div className="absolute right-3 top-3"><FiCheckCircle className="text-slate-800 h-4 w-4" /></div>
-          </div>
-
-          <div className="relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Milestone 03</div>
-            <div className="text-sm font-semibold text-slate-900 mt-1">Inspection Clear</div>
-            <div className="text-xs text-slate-500 mt-2">Awaiting Inspector</div>
-            <div className="absolute right-3 top-3"><span className="h-2 w-2 rounded-full bg-yellow-550 animate-pulse block" /></div>
-          </div>
-
-          <div className="relative rounded-xl border border-slate-100 bg-slate-50/50 p-4 opacity-50">
-            <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">Milestone 04</div>
-            <div className="text-sm font-semibold text-slate-500 mt-1">Payment Released</div>
-            <div className="text-xs text-slate-400 mt-2">Triggered on delivery</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="space-y-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Decentralized Trade Architecture</h2>
-          <p className="mt-2 text-sm text-slate-500">Core structural mechanics of the ChainTrace protocol</p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
-            <div key={feature.title} className="card-interactive">
-              <feature.icon className="mb-4 h-6 w-6 text-slate-800" />
-              <h3 className="text-base font-semibold text-slate-900">{feature.title}</h3>
-              <p className="mt-2 text-sm text-slate-600 leading-relaxed">{feature.description}</p>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="flex flex-col lg:flex-row items-center gap-8 py-8 lg:py-16">
+          <div className="flex-1 space-y-6">
+            <div className="inline-flex items-center px-3 py-1 bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold rounded-full tracking-wider uppercase">
+              Soroban Powered Trade Escrows
             </div>
-          ))}
+            <h1 className="font-extrabold text-4xl sm:text-5xl lg:text-6xl text-slate-900 leading-tight">
+              Decentralized Logistics &amp; Milestone Escrows
+            </h1>
+            <p className="text-lg text-slate-500 max-w-xl leading-relaxed">
+              Remove counterparty risks in global trade. Coordinate buyers, sellers, carriers, and inspectors trustlessly through Stellar smart contracts.
+            </p>
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Link href="/dashboard" className="bg-black text-white px-8 py-3 text-sm font-semibold rounded hover:bg-slate-800 transition-all active:scale-95">
+                Access Trade Dashboard
+              </Link>
+              <Link href="/transfer" className="bg-white border border-slate-200 text-slate-900 px-8 py-3 text-sm font-semibold rounded hover:bg-slate-50 transition-all active:scale-95">
+                Direct XLM Transfer
+              </Link>
+            </div>
+          </div>
+          <div className="flex-1 w-full relative">
+            <div className="aspect-square w-full max-w-md mx-auto bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm p-8 relative flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Smart Contract ID</p>
+                  <p className="font-mono text-sm text-slate-950 font-bold mt-1">CBAF...LJ47</p>
+                </div>
+                <span className="material-symbols-outlined text-slate-900 text-3xl">encrypted</span>
+              </div>
+              <div className="space-y-4">
+                <div className="h-px bg-slate-200 w-full"></div>
+                <div className="flex justify-between text-xs text-slate-500 font-semibold uppercase tracking-widest">
+                  <span>Escrow Balance</span>
+                  <span className="text-emerald-600">Locked</span>
+                </div>
+                <div className="text-3xl font-extrabold text-slate-950">
+                  50,000 XLM
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pipeline Console Section */}
+      <section className="bg-slate-50 border-y border-slate-200 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-2">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900">Global Pipeline Console</h2>
+              <p className="text-sm text-slate-500 mt-1">Route: SIN (Singapore) → HAM (Hamburg) • Shipment ID: #CT-88291</p>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Completed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#3B82F6]"></span>
+                </span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bento Grid Layout for Pipeline */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+            {/* Milestone 1 */}
+            <div className="high-air-card p-6 flex flex-col justify-between h-48 rounded-xl relative overflow-hidden shadow-sm">
+              <div className="flex justify-between items-start">
+                <div className="w-8 h-8 flex items-center justify-center bg-[#10B981] text-white rounded-full">
+                  <span className="material-symbols-outlined text-sm font-bold">check</span>
+                </div>
+                <span className="text-xs font-bold text-slate-400">Oct 12</span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Order Funded</h3>
+                <p className="text-xs text-slate-500 mt-1">Escrow wallet verified &amp; locked.</p>
+              </div>
+            </div>
+
+            {/* Milestone 2 */}
+            <div className="high-air-card p-6 flex flex-col justify-between h-48 rounded-xl relative overflow-hidden shadow-sm">
+              <div className="flex justify-between items-start">
+                <div className="w-8 h-8 flex items-center justify-center bg-[#10B981] text-white rounded-full">
+                  <span className="material-symbols-outlined text-sm font-bold">check</span>
+                </div>
+                <span className="text-xs font-bold text-slate-400">Oct 14</span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Cargo Shipped</h3>
+                <p className="text-xs text-slate-500 mt-1">Vessel: &quot;Ever Given II&quot;</p>
+              </div>
+            </div>
+
+            {/* Milestone 3 */}
+            <div className="high-air-card border-2 border-black p-6 flex flex-col justify-between h-48 rounded-xl relative overflow-hidden shadow-sm bg-white">
+              <div className="flex justify-between items-start">
+                <div className="w-8 h-8 flex items-center justify-center border-2 border-[#3B82F6] rounded-full relative">
+                  <div className="w-2.5 h-2.5 bg-[#3B82F6] rounded-full animate-status-pulse"></div>
+                </div>
+                <span className="text-xs font-bold text-black tracking-widest uppercase">IN PROGRESS</span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Inspection Clear</h3>
+                <p className="text-xs text-slate-500 mt-1">Awaiting digital signature from Hamburg Port.</p>
+              </div>
+            </div>
+
+            {/* Milestone 4 */}
+            <div className="high-air-card p-6 flex flex-col justify-between h-48 rounded-xl relative overflow-hidden shadow-sm opacity-60">
+              <div className="flex justify-between items-start">
+                <div className="w-8 h-8 flex items-center justify-center bg-slate-200 text-slate-500 rounded-full">
+                  <span className="material-symbols-outlined text-sm">hourglass_empty</span>
+                </div>
+                <span className="text-xs font-bold text-slate-400">Pending</span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Payment Released</h3>
+                <p className="text-xs text-slate-500 mt-1">Instant settlement upon validation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Highlight */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="bg-cover bg-center aspect-video rounded-xl border border-slate-200 bg-slate-100 flex items-center justify-center text-slate-400"
+               style={{ backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuA0TMXfAyyia6zF06CB90XxMFNGx9kMp8iGNdNGJMDv5uCqR9hI2_cavHO_X4sq7FENcILA0oXUuVjCyv1fjazU7pdHkbkSF1nxhtU7-qUh5jpJJbN9-96MfW0emrqPUTWIqGAdr06_mfBDJaJfiP4lq3ZtfmtX1dKB18D6Px9mowGipWvGBEzYBGg_m2KD_HEnFqHLUYNYpWMlK6aYp0DvIGgkD952cqfiD7oUA76OYRO9L6OXgeL_mkeI3L8Sil7bgzj0c_-ASNI')` }}>
+          </div>
+          <div className="space-y-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 leading-tight">Trustless Verification at Every Port</h2>
+            <p className="text-slate-500 leading-relaxed">
+              ChainTrace integrates with port authorities and independent inspectors via Soroban smart contracts. No more manual paperwork or delayed wire transfers. Once a verified inspector uploads the hash of the bill of lading, funds are automatically triggered.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <span className="material-symbols-outlined text-[#10B981] mt-0.5">task_alt</span>
+                <div>
+                  <p className="font-bold text-sm text-slate-900">Immutable Audit Trail</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Every handover is timestamped and signed on the Stellar ledger.</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="material-symbols-outlined text-[#10B981] mt-0.5">task_alt</span>
+                <div>
+                  <p className="font-bold text-sm text-slate-900">Zero Gas Soroban</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Execute complex logic with the industry&apos;s lowest overhead.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-black p-8 sm:p-12 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          <div className="space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Secure Your Next Trade</h2>
+            <p className="text-slate-400 text-sm sm:text-base">Start your first milestone-based shipment on ChainTrace today.</p>
+          </div>
+          <div className="flex gap-4">
+            <Link href="/dashboard" className="bg-white text-black px-8 py-3 text-sm font-semibold rounded hover:bg-slate-100 transition-colors">
+              Launch App
+            </Link>
+          </div>
         </div>
       </section>
     </div>

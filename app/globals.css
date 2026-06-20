@@ -108,4 +108,31 @@ body {
   }
 }
 
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.3; }
+  100% { transform: scale(0.8); opacity: 0.5; }
+}
+
+.animate-status-pulse {
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+.high-air-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.high-air-card:hover {
+  border-color: #0f172a;
+}
+
+
 

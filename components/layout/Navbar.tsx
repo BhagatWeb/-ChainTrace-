@@ -2,45 +2,50 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { FiMenu, FiX, FiActivity } from 'react-icons/fi';
+import { usePathname } from 'next/navigation';
+import { FiMenu, FiX } from 'react-icons/fi';
 import WalletButton from '../wallet/WalletButton';
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/transfer', label: 'XLM Direct Transfer' },
+  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/transfer', label: 'Direct Transfer' },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-slate-200 bg-white h-16 flex items-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 text-slate-900">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-black">
-            <FiActivity className="h-5 w-5" />
-          </div>
-          <span className="text-lg font-bold tracking-tight">
-            Chain<span className="text-slate-500 font-semibold">Trace</span>
-          </span>
+        <Link href="/" className="flex items-center gap-2 font-bold text-slate-900 text-lg">
+          <span className="material-symbols-outlined text-black text-2xl">hub</span>
+          <span className="font-extrabold tracking-tight">ChainTrace</span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-black"
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`font-medium text-sm transition-all duration-200 ${
+                  isActive
+                    ? 'text-black border-b-2 border-black pb-1'
+                    : 'text-slate-500 hover:text-black'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Wallet action (desktop) */}
-        <div className="hidden md:block">
+        {/* Wallet Connection (Desktop) */}
+        <div className="hidden md:flex items-center gap-4">
           <WalletButton />
         </div>
 
@@ -48,7 +53,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-900 hover:text-white"
+            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-black transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
@@ -58,20 +63,27 @@ export default function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-slate-200 px-4 py-4 md:hidden animate-slide-up bg-white">
-          <nav className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-4 py-3 text-sm font-medium text-slate-650 transition-colors hover:bg-slate-50 hover:text-black"
-              >
-                {link.label}
-              </Link>
-            ))}
+        <div className="absolute top-16 left-0 right-0 border-b border-slate-250 px-4 py-4 md:hidden animate-slide-up bg-white z-40 shadow-sm">
+          <nav className="flex flex-col gap-2">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-slate-100 text-black font-semibold'
+                      : 'text-slate-650 hover:bg-slate-50 hover:text-black'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
-          <div className="mt-4 border-t border-slate-200 pt-4">
+          <div className="mt-4 border-t border-slate-100 pt-4">
             <WalletButton />
           </div>
         </div>

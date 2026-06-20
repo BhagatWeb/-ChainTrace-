@@ -19,7 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex min-h-screen flex-col bg-zinc-950 text-white`}>
+      <head>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossOrigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+      </head>
+      <body className={`${inter.className} flex min-h-screen flex-col bg-white text-slate-900`}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
@@ -27,9 +33,9 @@ export default function RootLayout({
           position="bottom-right"
           toastOptions={{
             style: {
-              background: '#18181b',
-              color: '#fff',
-              border: '1px solid #27272a',
+              background: '#ffffff',
+              color: '#0f172a',
+              border: '1px solid #e2e8f0',
             },
           }}
         />
