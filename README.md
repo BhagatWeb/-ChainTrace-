@@ -125,6 +125,28 @@ ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault 
 
 ---
 
+## ☁️ Netlify Deployment Guide
+
+This project is pre-configured with `netlify.toml` for seamless Netlify deployments.
+
+### Steps to Deploy:
+1. **Connect to Netlify**:
+   Go to [Netlify Dashboard](https://app.netlify.com/) and click **Add new site** -> **Import from an existing project**.
+2. **Select GitHub**:
+   Authorize Netlify to access your GitHub repositories and select the **ChainTrace** repository.
+3. **Build Settings**:
+   Netlify will automatically detect the `netlify.toml` configuration:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `.next`
+4. **Environment Variables**:
+   Under **Site configuration** -> **Environment variables**, add the following keys matching your contract configurations:
+   - `NEXT_PUBLIC_ESCROW_CONTRACT_ID` = `CBAFHUW7TL73RG4KYSL53ZF4N4NCJK76KXL3NHKEDDWE2GPVHA52LJ47`
+   - `NEXT_PUBLIC_ORDER_CONTRACT_ID` = `CB56DGFX43XUXN2OASKM3SF6I3WWNYUM6KE7HKUKX3JSLZPYQSRQXOHH`
+   - `NEXT_PUBLIC_STELLAR_RPC_URL` = `https://soroban-rpc.testnet.stellar.org`
+5. Click **Deploy Site**. Netlify will build the production Next.js application and serve it instantly.
+
+---
+
 ## 👨‍💻 Author
 **BhagatWeb** — [GitHub](https://github.com/BhagatWeb)
 
