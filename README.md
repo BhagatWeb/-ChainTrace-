@@ -2,7 +2,21 @@
 
 ChainTrace is a decentralized trade coordination and financing protocol built on **Stellar Soroban**. It facilitates trustless global trade by allowing Buyers, Suppliers, Logistics Providers, and Inspectors to manage orders, track delivery milestones, dispute shipments, and release financing payments dynamically based on multi-party state-machine verifications.
 
-**Built for the RiseIn Stellar Smart Contract and dApp Development Program.**
+---
+
+## 📌 Problem & Solution
+
+### The Problem
+Cross-border supply chains suffer from severe counterparty risks and operational opacity:
+1. **Lack of Payment Security**: Suppliers fear shipping goods without advance payments, while Buyers fear losing funds to untrusted or delayed shipments.
+2. **Coarse-Grained Payouts**: Payment terms are often rigid, preventing incremental payouts matching real logistics progress.
+3. **Dispute Vulnerabilities**: If goods are damaged or misrouted, funds get locked up indefinitely due to lack of transparent multi-party state resolution.
+
+### The Solution: ChainTrace
+ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault and releasing them programmatically based on verifiable logistics milestones:
+- **Dual-Contract Architecture**: Separation of order metadata (`order-contract`) from the actual fund locking/release mechanisms (`escrow-contract`) for high security.
+- **Inter-Contract state updates**: When a verified logistics provider or inspector updates a shipment milestone, the `order-contract` performs a cross-contract invocation to `escrow-contract` to execute payouts.
+- **Role-based dashboard**: Granular control panel with custom modules tailored to **Buyers**, **Suppliers**, **Logistics Providers**, and **Inspectors**.
 
 ---
 
@@ -12,6 +26,27 @@ ChainTrace is a decentralized trade coordination and financing protocol built on
 *   **Escrow Vault Contract ID**: `CBAFHUW7TL73RG4KYSL53ZF4N4NCJK76KXL3NHKEDDWE2GPVHA52LJ47`
 *   **Stellar Network**: Testnet
 *   **Initialization Transaction**: `7fb488cc3a32f6b3e7ff7de9ef652a921d743a129de9d28bc9ef2816ccb21f3a` (cross-linked for automatic milestone payouts)
+
+---
+
+## 📸 Submission Screenshots & Demo Video
+
+*Please replace the placeholders below with your own screenshots and video link before final submission:*
+
+### 📹 Demo Video Link
+- [Link to Demo Video (1-2 minutes)]() <!-- Insert your video link here (Google Drive, Loom, YouTube, etc.) -->
+
+### 📱 Mobile Responsive UI
+<!-- Drag and drop your mobile view screenshots here -->
+*(Upload mobile-responsive UI screenshots here)*
+
+### ⚙️ CI/CD Pipeline Running
+<!-- Drag and drop your CI/CD pipeline screenshot here -->
+*(Upload CI/CD pipeline screenshot here)*
+
+### 🧪 Test Output (3+ Passing Tests)
+<!-- Drag and drop your passing test suite screenshot here -->
+*(Upload test suite run screenshot here)*
 
 ---
 
@@ -97,4 +132,3 @@ ChainTrace is a decentralized trade coordination and financing protocol built on
 
 ## 📄 License
 This project is licensed under the MIT License.
-
