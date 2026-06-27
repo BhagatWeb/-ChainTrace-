@@ -4,34 +4,38 @@ ChainTrace is a decentralized trade coordination and financing protocol built on
 
 ---
 
+## 📌 Submission Details & Quick Links
+
+*   **🌐 Live Production Link**: [https://chain-trace.netlify.app/](https://chain-trace.netlify.app/)
+*   **📹 Demo Video Presentation**: [Google Drive Video Demo](https://drive.google.com/file/d/1ZwH7PVVpRn0xglDTZJ7jcAVxRAkEZkoe/view)
+*   **💻 GitHub Repository**: [https://github.com/BhagatWeb/-ChainTrace-](https://github.com/BhagatWeb/-ChainTrace-)
+*   **📝 Feedback Form Link**: [Google Form](https://forms.gle/bMy9Vy5376z9RX9UA)
+*   **📊 Feedback Responses**: [Google Sheet Responses](https://docs.google.com/spreadsheets/d/1bXkiT1P9mHkYrbHz7-K36U2AuAKzh3jTcSz6kxmsuM8/edit?resourcekey=&gid=481046294#gid=481046294)
+
+---
+
 ## 📌 Problem & Solution
 
 ### The Problem
-Cross-border supply chains suffer from severe counterparty risks and operational opacity:
+Cross-border supply chains suffer from severe counterparty risks, operational opacity, and working capital deficits:
 1. **Lack of Payment Security**: Suppliers fear shipping goods without advance payments, while Buyers fear losing funds to untrusted or delayed shipments.
 2. **Coarse-Grained Payouts**: Payment terms are often rigid, preventing incremental payouts matching real logistics progress.
-3. **Dispute Vulnerabilities**: If goods are damaged or misrouted, funds get locked up indefinitely due to lack of transparent multi-party state resolution.
+3. **Liquidity Lockups**: Suppliers have their working capital locked in escrow or transit for 30-90 days, stifling cash flow.
+4. **Dispute Vulnerabilities**: If goods are damaged or misrouted, funds get locked up indefinitely due to lack of transparent multi-party state resolution.
 
 ### The Solution: ChainTrace
 ChainTrace establishes trust by locking Buyer funds in an on-chain Escrow vault and releasing them programmatically based on verifiable logistics milestones:
 - **Dual-Contract Architecture**: Separation of order metadata (`order-contract`) from the actual fund locking/release mechanisms (`escrow-contract`) for high security.
 - **Inter-Contract state updates**: When a verified logistics provider or inspector updates a shipment milestone, the `order-contract` performs a cross-contract invocation to `escrow-contract` to execute payouts.
+- **DeFi Trade Financing (Factoring)**: Integrates an early liquidity pool allowing suppliers to borrow against their in-transit cargo using their locked order escrow as collateral.
 - **Role-based dashboard**: Granular control panel with custom modules tailored to **Buyers**, **Suppliers**, **Logistics Providers**, and **Inspectors**.
-
----
-
-## 📌 Submission Details & Demo Presentation
-
-*   **🌐 Live Production Link**: [https://chain-trace.netlify.app/](https://chain-trace.netlify.app/)
-*   **📹 Demo Video Presentation**: [Google Drive Video Demo](https://drive.google.com/file/d/1ZwH7PVVpRn0xglDTZJ7jcAVxRAkEZkoe/view?usp=sharing)
-*   **💻 GitHub Repository**: [https://github.com/BhagatWeb/-ChainTrace-](https://github.com/BhagatWeb/-ChainTrace-)
 
 ---
 
 ## 📸 Media Gallery
 
 ### 📱 Mobile Responsive Interface
-Below are screenshots demonstrating the mobile-responsive web interface, built using a clean monochromatic (slate and zinc) layout matching Stitch guidelines:
+Below are screenshots demonstrating the mobile-responsive web interface, built using a clean monochromatic layout matching Stitch guidelines:
 
 #### Home & Connect Page
 ![Mobile UI 1](./sub%20assets/mobui1.png)
@@ -70,7 +74,22 @@ Our GitHub Actions workflow automatically builds the Next.js frontend, runs the 
 
 ---
 
-## 🌟 Progressive Features (Level 1, 2, and 3)
+## 👥 Level 4 User Onboarding & Feedback
+
+As part of the Level 4 requirements, we onboarded 10+ beta testers to interact with the ChainTrace platform on the Stellar Testnet. Below is a summary of the feedback collected:
+
+### Feedback Summary
+1. **Easy Wallet Connectivity**: Testers loved the multi-wallet integration (Freighter, xBull, Albedo), noting that connecting was fast and stable.
+2. **Smart Contract Transparency**: Having the escrow balances and milestones state-machine update in real-time gave users high confidence compared to traditional bank-based trade financing.
+3. **Suggested Improvements (Addressed)**:
+   - *Issue*: Some text and titles were cut off by the fixed header on certain resolutions.
+   - *Fix*: Added proper top padding (`pt-16`) to the main page wrapper.
+   - *Issue*: Mobile dashboard layouts were initially hard to read.
+   - *Fix*: Optimized layout classes for smaller screens.
+
+---
+
+## 🌟 Progressive Features (Level 1, 2, 3, and 4)
 
 ### 👛 Level 1: Core Connectivity & Direct Routing
 *   **Multi-Wallet Bridge**: Smooth connection and disconnection handling using the Stellar Wallets Kit (Freighter, xBull, Albedo).
@@ -128,8 +147,6 @@ test result: ok. 3 passed; 0 failed; 0 ignored
 ### 2. Frontend Vitest Output
 ```bash
 $ npm run test
-
- RUN  v2.1.9 C:/Users/Deep Saha/Desktop/risein/level 3/ChainTrace- Aman
 
  ✓ __tests__/components/Badge.test.tsx > Badge Component > renders the correct label for created status
  ✓ __tests__/components/Badge.test.tsx > Badge Component > renders the correct label for funded status
@@ -199,24 +216,6 @@ $ npm run test
        cd contracts/order-contract && cargo test
        cd ../escrow-contract && cargo test
        ```
-
----
-
-## 👥 Level 4 User Onboarding & Feedback
-
-As part of the Level 4 requirements, we onboarded 10+ beta testers to interact with the ChainTrace platform on the Stellar Testnet.
-
-* **Feedback Form Link**: [Google Form](https://forms.gle/bMy9Vy5376z9RX9UA)
-* **Feedback Responses**: [Google Sheet responses](https://docs.google.com/spreadsheets/d/1bXkiT1P9mHkYrbHz7-K36U2AuAKzh3jTcSz6kxmsuM8/edit?resourcekey=&gid=481046294#gid=481046294)
-
-### Feedback Summary
-1. **Easy Wallet Connectivity**: Testers loved the multi-wallet integration (Freighter, xBull, Albedo), noting that connecting was fast and stable.
-2. **Smart Contract Transparency**: Having the escrow balances and milestones state-machine update in real-time gave users high confidence compared to traditional bank-based trade financing.
-3. **Suggested Improvements (Addressed)**:
-   - *Issue*: Some text and titles were cut off by the fixed header on certain resolutions.
-   - *Fix*: Added proper top padding (`pt-16`) to the main page wrapper.
-   - *Issue*: Mobile dashboard layouts were initially hard to read.
-   - *Fix*: Optimized layout classes for smaller screens.
 
 ---
 
