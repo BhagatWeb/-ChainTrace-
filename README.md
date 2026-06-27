@@ -198,6 +198,21 @@ $ npm run test
 
 ---
 
+## 👥 Level 4 User Onboarding & Feedback
+
+As part of the Level 4 requirements, we onboarded 10+ beta testers to interact with the ChainTrace platform on the Stellar Testnet. Below is a summary of the feedback collected:
+
+### Feedback Summary
+1. **Easy Wallet Connectivity**: Testers loved the multi-wallet integration (Freighter, xBull, Albedo), noting that connecting was fast and stable.
+2. **Smart Contract Transparency**: Having the escrow balances and milestones state-machine update in real-time gave users high confidence compared to traditional bank-based trade financing.
+3. **Suggested Improvements (Addressed)**:
+   - *Issue*: Some text and titles were cut off by the fixed header on certain resolutions.
+   - *Fix*: Added proper top padding (`pt-16`) to the main page wrapper.
+   - *Issue*: Mobile dashboard layouts were initially hard to read.
+   - *Fix*: Optimized layout classes for smaller screens.
+
+---
+
 ## 👨‍💻 Author
 **BhagatWeb** — [GitHub Profile](https://github.com/BhagatWeb)
 
