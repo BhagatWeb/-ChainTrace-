@@ -52,6 +52,9 @@ Our GitHub Actions workflow automatically builds the Next.js frontend, runs the 
 | --- | --- |
 | ![Desktop UI 1](./sub%20assets/ui1.png) | ![Desktop UI 2](./sub%20assets/ui2.png) |
 
+### 📊 System Telemetry & Live Analytics Dashboard
+![System Telemetry](./sub%20assets/analytics.png)
+
 ---
 
 ## 🚀 Deployed Contracts & Credentials
