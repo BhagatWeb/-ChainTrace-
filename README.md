@@ -200,7 +200,10 @@ $ npm run test
 
 ## 👥 Level 4 User Onboarding & Feedback
 
-As part of the Level 4 requirements, we onboarded 10+ beta testers to interact with the ChainTrace platform on the Stellar Testnet. Below is a summary of the feedback collected:
+As part of the Level 4 requirements, we onboarded 10+ beta testers to interact with the ChainTrace platform on the Stellar Testnet.
+
+* **Feedback Form Link**: [Google Form](https://forms.gle/bMy9Vy5376z9RX9UA)
+* **Feedback Responses**: [Google Sheet responses](https://docs.google.com/spreadsheets/d/1bXkiT1P9mHkYrbHz7-K36U2AuAKzh3jTcSz6kxmsuM8/edit?resourcekey=&gid=481046294#gid=481046294)
 
 ### Feedback Summary
 1. **Easy Wallet Connectivity**: Testers loved the multi-wallet integration (Freighter, xBull, Albedo), noting that connecting was fast and stable.
