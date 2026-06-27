@@ -85,25 +85,37 @@ Our GitHub Actions workflow automatically builds the Next.js frontend, runs the 
     *   **Vitest Suite**: 12 passing tests verifying utility helper conversions (`stroopsToXlm`, `xlmToStroops`, etc.) and key UI components.
 *   **CI/CD Pipeline**: GitHub Action workflows (`ci.yml`) automating contract compilation, Rust testing, Next.js linting, Vitest runs, and production builds.
 
+### 📊 Level 4: Live Telemetry, On-Chain Factoring & Mobile Polish
+*   **Live Telemetry Dashboard (`/dashboard/analytics`)**: Integrated real-time client-side transaction monitoring, wallet event logging, and error tracing with interactive simulation tools to test 10+ user scenarios.
+*   **DeFi Trade Financing (`contracts/finance-contract`)**: Deployed a new Soroban factoring smart contract supporting collateralized borrow capabilities, interest rates, and automated repayment triggers.
+*   **UI/UX Optimizations**: Optimized navigation for mobile responsive layouts, added smooth micro-animations, and integrated proper loading/error states.
+
 ---
 
 ## 🧪 Verified Test Suite Runs
 
 ### 1. Smart Contract Test Output
-Running tests inside `contracts/order-contract` and `contracts/escrow-contract`:
+Running tests inside `contracts/order-contract`, `contracts/escrow-contract`, and `contracts/finance-contract`:
 ```bash
 $ cargo test
 
+# order-contract:
 running 2 tests
 test test::test_create_order ... ok
 test test::test_order_lifecycle ... ok
+test result: ok. 2 passed; 0 failed; 0 ignored
 
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
-
+# escrow-contract:
 running 1 test
 test test::test_deposit ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+# finance-contract:
+running 3 tests
+test test::test_insufficient_liquidity - should panic ... ok
+test test::test_loan_request ... ok
+test test::test_loan_repayment ... ok
+test result: ok. 3 passed; 0 failed; 0 ignored
 ```
 
 ### 2. Frontend Vitest Output

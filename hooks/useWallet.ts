@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { stellar } from '@/lib/stellar';
+import { telemetry } from '@/lib/telemetry';
 
 export function useWallet() {
   const [publicKey, setPublicKey] = useState('');
@@ -37,9 +38,11 @@ export function useWallet() {
       setPublicKey(key);
       sessionStorage.setItem('ct_wallet', key);
       await refreshBalance(key);
+      telemetry.log('wallet_connect', `Wallet connected successfully: ${key.slice(0, 6)}...${key.slice(-4)}`, { walletType: id || 'freighter', publicKey: key });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Connection failed';
       setError(message);
+      telemetry.log('error', `Failed to connect wallet: ${message}`);
     } finally {
       setLoading(false);
     }
@@ -47,11 +50,12 @@ export function useWallet() {
 
   const disconnect = useCallback(() => {
     stellar.disconnect();
+    telemetry.log('wallet_disconnect', `Disconnected active wallet session: ${publicKey.slice(0, 6)}...${publicKey.slice(-4)}`);
     setPublicKey('');
     setBalance('0.00');
     setError(null);
     sessionStorage.removeItem('ct_wallet');
-  }, []);
+  }, [publicKey]);
 
   // Poll balance every 10 seconds to keep UI state in sync with network state
   useEffect(() => {
